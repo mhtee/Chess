@@ -1,3 +1,5 @@
+var socket = io();
+
 var initGame = function() {
 	var cfg = {
 		draggable: true,
@@ -18,7 +20,13 @@ var handleMove = function(source, target) {
 	}
 	else{
 		console.log('Valid move!');
+		socket.emit('move', move);
 	}
 }
+
+socket.on('move', function(msg) {
+	game.move(msg);
+	board.position(game.fen());
+});
 
 initGame();
